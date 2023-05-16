@@ -1,14 +1,27 @@
 ARG ALPINE_VERSION=3.17
 FROM alpine:${ALPINE_VERSION}
-LABEL Maintainer="Tim de Pater <code@trafex.nl>"
-LABEL Description="Lightweight container with Nginx 1.22 & PHP 8.1 based on Alpine Linux."
+
 # Setup document root
 WORKDIR /var/www/html
 
 # Install packages and remove default server definition
 RUN apk add --no-cache \
-  curl \
   nginx \
+  curl \
+  libcurl \
+  libpq \
+  git \
+  dialog \
+  autoconf \
+  make \
+  libzip-dev \
+  bzip2-dev \
+  icu-dev \
+  tzdata \
+  libpng-dev \
+  libjpeg-turbo-dev \
+  freetype-dev \
+  libxslt-dev \
   php81 \
   php81-ctype \
   php81-curl \
@@ -26,8 +39,20 @@ RUN apk add --no-cache \
   php81-xmlreader \
   supervisor
 
+# make sure you can use HTTPS
+RUN apk --update add ca-certificates
+
+# Install additional PHP extensions
+RUN apk add --no-cache \
+  php81-pdo_mysql \
+  php81-exif \
+  php81-pcntl \
+  php81-bcmath \
+  php81-zip
+
 # Configure nginx - http
 COPY config/nginx.conf /etc/nginx/nginx.conf
+
 # Configure nginx - default server
 COPY config/conf.d /etc/nginx/conf.d/
 

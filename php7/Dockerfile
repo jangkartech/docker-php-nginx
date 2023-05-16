@@ -11,6 +11,8 @@ RUN apk update && apk upgrade
 RUN apk add --no-cache \
   nginx \
   curl \
+  zip \
+  unzip \
   libcurl \
   libpq \
   git \
@@ -51,6 +53,11 @@ RUN apk add --no-cache \
   php7-exif \
   php7-pcntl \
   php7-bcmath \
+  php7-fileinfo \
+  php7-json \
+  php7-tokenizer \
+  php7-xmlwriter \
+  php7-simplexml \
   php7-zip
 
 # Configure nginx - http
@@ -65,6 +72,8 @@ COPY config/php.ini /etc/php7/conf.d/custom.ini
 
 # Configure supervisord
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Make sure files/folders needed by the processes are accessable when they run under the nobody user
 RUN chown -R nobody.nobody /var/www/html /run /var/lib/nginx /var/log/nginx
@@ -83,3 +92,5 @@ CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
 
 # Configure a healthcheck to validate that everything is up&running
 HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:8080/fpm-ping
+
+WORKDIR /var/www
