@@ -58,6 +58,9 @@ RUN apk add --no-cache \
   php7-tokenizer \
   php7-xmlwriter \
   php7-simplexml \
+  php7-sodium \
+  php7-iconv \
+  php7-ftp \
   php7-zip
 
 # Configure nginx - http

@@ -55,6 +55,9 @@ RUN apk add --no-cache \
   php81-tokenizer \
   php81-xmlwriter \
   php81-simplexml \
+  php81-sodium \
+  php81-iconv \
+  php81-ftp \
   php81-zip
 
 # Configure nginx - http
