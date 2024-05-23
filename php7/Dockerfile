@@ -75,6 +75,8 @@ RUN apk add --no-cache \
 ## Install Mongo From PECL
 RUN pecl install mongodb
 
+RUN pecl install redis
+
 RUN pecl7 config-set php_ini /etc/php.ini
 
 # Configure nginx - http
