@@ -27,6 +27,9 @@ RUN apk add --no-cache \
   libjpeg-turbo-dev \
   freetype-dev \
   libxslt-dev \
+  curl-dev \
+  openssl \
+  openssl-dev \
   php7 \
   php7-ctype \
   php7-curl \
@@ -61,7 +64,20 @@ RUN apk add --no-cache \
   php7-sodium \
   php7-iconv \
   php7-ftp \
-  php7-zip
+  php7-zip \
+  php7-pear \
+  php7-dev \
+  gcc \
+  musl-dev \
+  make
+
+
+## Install Mongo From PECL
+RUN pecl install mongodb
+
+RUN pecl install redis
+
+RUN pecl7 config-set php_ini /etc/php.ini
 
 # Configure nginx - http
 COPY config/nginx.conf /etc/nginx/nginx.conf
